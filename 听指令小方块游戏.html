@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,input,button,div{margin: 0;padding: 0;}
+			#wrap{
+				position: relative;
+				margin-left: 200px;
+				margin-top:50px;
+			}
+			.background{
+				position:absolute;
+				width:510px;
+				height:510px;
+				background-color:gainsboro;
+				border:2px solid gray;
+				background-image:linear-gradient(white 1px,transparent 0),linear-gradient(90deg,white 1px,transparent 0);
+				background-size:51px 51px;
+				top:100px;
+			}
+			.box{
+				
+				width:50px;
+				height:50px;
+				background:palevioletred;
+				left:52px;top:103px;
+			}
+			.box .runbody{
+				width:50px;
+				height:10px;
+				background: papayawhip;
+			}
+			p{
+				width:510px;
+				color:burlywood;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div class="background">
+			    <div class="box"style="position: absolute;">
+				    <div class="runbody"></div>
+			    </div>
+		   </div>
+		   <div class="in_bu">
+		    	    <input type="text">
+		        <button>走你！</button>
+		        <p>游戏规则：输入GO使小方块前进，输入TUN LEF使小方块向左转，输入TUN RIG使小方块向右转，输入TUN BAC使小方块向后转，快来试试！</p>
+		    </div>
+		</div>
+		
+		<script>
+            window.onload=function(){
+            	    var oBox=document.getElementsByClassName("box")[0];
+                var deg=0;
+            	    (function(){
+            	   	
+			    var oInput=document.getElementsByTagName("input")[0];
+				var oBtn=document.getElementsByTagName("button")[0];
+				var oParent=document.getElementsByClassName("background")[0];
+				
+				oBtn.onclick=function(){
+					var inputValue=oInput.value;
+					switch(inputValue){
+						case"GO":
+						    GO();
+						    break;
+						case "TUN LEF":
+						    TUN_LEF();
+						    break;
+						case"TUN RIG":
+						    
+						    TUN_RIG();
+						    break;
+						case"TUN BAC":
+						    TUN_BAC();
+						    break;
+						default:
+						    alert("您的输入有误，请重新输入！");
+						    break;
+					}
+				}
+            }
+            )();
+            
+            function GO(){	 
+            	var boxTop=oBox.offsetTop;
+            	var boxLeft=oBox.offsetLeft;
+            	var absDeg=deg;
+            	while(absDeg<0){
+            		absDeg+=360;
+            	}
+            	if(absDeg%360===0&&boxTop>45){
+            		oBox.style.top=boxTop+(-51)+"px";
+            	}else if(absDeg%360===90&&boxLeft<460){
+            		oBox.style.left=boxLeft+51+"px";
+            	    
+            }else if(absDeg%360===180&&boxTop<460){
+            	    oBox.style.top=boxTop+51+"px";
+            }else if(absDeg%360===270&&boxLeft>51){
+            	    oBox.style.left=boxLeft+(-51)+"px";
+            }else{
+            	alert("走不了啦");
+            }
+            };
+            
+            function TUN_LEF(){
+            	deg=deg-90;
+            	oBox.style.transform="rotate("+deg+"deg)";
+            }
+            
+            function TUN_BAC(){
+            	deg=deg-180;
+            	oBox.style.transform="rotate("+deg+"deg)";
+            }
+            
+            function TUN_RIG(){
+            	deg=deg+90;
+            	oBox.style.transform="rotate("+deg+"deg)";
+            }
+            };
+		</script>
+	</body>
+</html>
