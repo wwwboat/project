@@ -1,0 +1,241 @@
+<!DOCTYPE >
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			body,div,form,input,p{padding:0px;margin:0px;}
+			.form{
+				width:400px;
+				margin: 0 auto;
+			}
+			.form div{
+				margin: 30px;
+			}
+			.form div label{
+				display: inline-block;
+				width:80px;
+				text-align: right;
+				font-family: "微软雅黑";
+			}
+			
+			.form div input{
+				height:20px;
+				padding:0 5px;
+				margin-left:10px ;
+				border-radius:4px;
+				box-shadow: none;
+				border-style:none;
+				border:1px solid #808080;
+			}
+			.form div .input{
+				position: relative;
+			}
+			.form div .input span{
+				display: none;
+				position: absolute;
+				top:20px;
+				left:10;
+			}
+			.form div button{
+				width:60px;
+				height:20px;
+			}
+			.tab{
+				color:gray;
+				font-size: 12px;
+				font-family: arial;
+			}
+			button{
+				width:60px;
+				height:30px;
+				margin-left:170px;
+				border:none;
+				background: dodgerblue;
+				border-radius:4px ;
+				color:white;
+				font-size: 16px;;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="form">
+			<form>
+				<div>
+					<label for="name">名称：</label>
+					<span class="input">
+						<input id="name" type="text">
+						<span class="tab">必填，长度为4～16个字符</span>
+					</span>
+				</div>
+				<div>
+					<label for="pass">密码：</label>
+					<span class="input">
+						<input id="pass" type="password">
+						<span class="tab">必填，长度为6～10个数字英文字符</span>
+					</span>
+				</div>
+				<div>
+					<label for="psssAgain">密码确认：</label>
+					<span class="input">
+						<input id="passAgain" type="password">
+						<span class="tab">请再次输入您输入的密码</span>
+					</span>
+				</div>
+				<div>
+					<label for="email">邮箱：</label>
+					<span class="input">
+						<input id="email" type="email">
+						<span class="tab">请输入邮箱地址</span>
+					</span>
+				</div>
+				<div>
+					<label for="tel">手机：</label>
+					<span class="input">
+						<input id="tel" type="tel">
+						<span class="tab">请填写11位手机号码</span>
+					</span>
+				</div>
+				<button>提交</button>
+			</form>
+		</div>
+		<script>
+			window.onload=function(){
+				/*
+				 获取所需的元素
+				 */
+				var oBtn=document.getElementsByTagName("button")[0];
+				var oTips0=document.getElementsByClassName("tab")[0];
+				var oTips1=document.getElementsByClassName("tab")[1];
+				var oTips2=document.getElementsByClassName("tab")[2];
+				var oTips3=document.getElementsByClassName("tab")[3];
+				var oTips4=document.getElementsByClassName("tab")[4];
+				
+				var aTips=document.getElementsByClassName("tab");
+				var aInput=document.getElementsByTagName("input");
+				
+				var oName=document.getElementById("name");
+				var oPass=document.getElementById("pass");
+				var oPassAgain=document.getElementById("passAgain");
+				var oEmail=document.getElementById("email");
+				var oTel=document.getElementById("tel");
+				
+				
+				/*
+				 输入框的键盘抬起事件，和验证按钮的点击事件
+				 */
+				var str0="";
+				var check=0;
+				/*
+				 循环所有的input标签，为每一个输入框添加鼠标聚焦事件。
+				 使用了闭包。
+				 */
+				for(var i=0;i<aInput.length;i++){
+                    (function(i){
+                    	    aInput[i].onfocus=function(){
+                    	    	showTip(aTips[i]);
+                    	    }
+                    })(i)
+				}
+				
+				oName.onblur=function(){
+					checkName(this,oTips0, "长度为4～16个字符","输入正确。");
+				}
+				oPass.onblur=function(){
+					checkPass(this,oTips1,"请输入长度为6-10的数字英文密码","密码可用");
+				}
+
+				oPassAgain.onblur=function(){
+					checkPassAgain(this,oTips2,"密码错误","密码可用");
+				}
+				oEmail.onblur=function(){
+					checkEmail(this,oTips3,"邮箱格式错误","邮箱格式正确");
+				}
+				oTel.onblur=function(){
+					checkTel(this,oTips4,"手机号码格式错误","手机号码格式正确");
+				}
+				oBtn.onclick=function (){
+					if(check!=5){
+						alert("请正确填写所有内容");
+						return false;
+					}	
+				}
+			};
+			
+			/*
+			 * 验证输入内容函数
+			 */
+			function showTip(Tips){
+				Tips.style.display="block";
+			}
+			function wrongColor(inPut,tips,str1){
+				    tips.innerHTML=str1;
+					tips.style.color="red";
+					inPut.style.borderColor="red";
+				}
+			function trueColor(inPut,tips,str2){
+				    tips.innerHTML=str2;
+					tips.style.color="green";
+					inPut.style.borderColor="green";
+					
+			}
+			
+			function checkName(inPut,tips,str1,str2){
+				var inputVal=inPut.value;
+				//验证输入字符，为中文则一个长度为2
+				var Len=0;
+				for(var i=0;i<inputVal.length;i++){
+					if(inputVal.charCodeAt()>255){
+						Len+=2;
+					}else{
+						Len++;
+					}
+				}
+				if(Len<4||Len>16){
+					wrongColor(inPut,tips,str1);	
+				}else{
+                    trueColor(inPut,tips,str2);
+					check++;
+				}			
+			}
+			function checkPass(inPut,tips,str1,str2){
+				var inPutVal=inPut.value;
+				if(inPutVal==""||(inPutVal!=0&&!/^[0-9a-zA-Z]{6,10}$/.test(inPutVal))){
+                    wrongColor(inPut,tips,str1);
+				}else{
+					str=inPutVal;
+                    trueColor(inPut,tips,str2);
+                    check++;
+				}			
+			}
+			function checkPassAgain(inPut,tips,str1,str2){
+				var inPutVal=inPut.value;
+				if(inPutVal!=0&&inPutVal==str){
+					trueColor(inPut,tips,str2);
+                    check++;
+				}else{
+                    wrongColor(inPut,tips,str1);
+					
+				}				
+			}
+			function checkEmail(inPut,tips,str1,str2){
+				var inPutVal=inPut.value;
+				if(inPutVal==""||(inPutVal!=""&&!/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(inPutVal))){
+                    wrongColor(inPut,tips,str1);
+				}else{
+                    trueColor(inPut,tips,str2);
+					check++;
+				}
+			}
+			function checkTel(inPut,tips,str1,str2){
+				var inPutVal=inPut.value;
+				if(inPutVal==""||(inPutVal!=""&&!/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/.test(inPutVal))){
+                     wrongColor(inPut,tips,str1);
+				}else{
+					trueColor(inPut,tips,str2);
+					check++;
+				}
+			}
+		</script>
+	</body>
+</html>
