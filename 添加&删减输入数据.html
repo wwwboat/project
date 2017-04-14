@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,div,form,ul,li{
+				padding:0px;
+				margin:0px;
+			}
+			li{
+				width:30px;
+				list-style: none;
+				float: left;
+				margin:0 5px;
+				padding: 10px;
+				text-align: center;
+				font-size: 16px;
+				color:white;
+				font-family: arial;
+				background: red;	
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			
+				<input type="text" />
+				<button id="left_in">左侧入</button>
+				<button id="right_in">右侧入</button>
+				<button id="left_out">左侧出</button>
+				<button id="right_out">右侧出</button>
+			
+			<ul>
+				<li>10</li>
+				<li>40</li>
+				<li>3</li>
+			</ul>
+		</div>
+		
+		<script>
+			window.onload=function(){
+				var oBtnLeftIn=document.getElementById("left_in");
+				var oBtnRightIn=document.getElementById("right_in");
+				var oBtnLeftOut=document.getElementById("left_out");
+				var oBtnRightOut=document.getElementById("right_out");
+				var oInput=document.getElementsByTagName("input")[0];
+				var oLi=document.getElementsByTagName("li");
+				var oBtns=document.getElementsByTagName("button");
+				
+				var oUl=document.getElementsByTagName("ul")[0];
+				var oLi=oUl.getElementsByTagName("li");
+				var Input=document.getElementsByTagName("input")[0].value;
+				
+				
+				oBtnLeftIn.onclick=function(){
+					if(expNum()){
+						leftIn(oUl,oLi);
+					}
+				}
+				oBtnRightIn.onclick=function(){
+					if(expNum()){
+						rightIn(oUl);
+					}
+				}
+				oBtnLeftOut.onclick=function(){
+					leftOut(oUl,oLi);
+				}
+				oBtnRightOut.onclick=function(){
+					rightOut(oUl,oLi);
+				}
+				oBtns.onclick=function(){
+					
+				}
+				for(var i=0;i<oLi.length;i++){
+					oLi[i].ondblclick=function(){
+						delSelf(this);
+					}
+				}
+				
+			};
+			
+			function expNum(){
+				var inPut=document.getElementsByTagName("input")[0];
+				if(inPut.value==""){
+					alert("请输入数字！");
+					return false;
+				}else if(isNaN(inPut.value)){
+					alert("格式不对，请您重新输入数字！");
+					return false;	
+				}else{
+					return true;
+				}
+			}
+			
+			function leftIn(Ul,Li){
+				//获取input输入框的内容:
+				var inPut=document.getElementsByTagName("input")[0].value;
+				//创建li元素，创建文本元素内容为input输入框的内容，将文本元素插入新创建的li中。
+				var oNewLi=document.createElement("li");
+				var oNewLiText=document.createTextNode(inPut);
+				oNewLi.appendChild(oNewLiText);
+				//当ul中没有li时，直接将新创建的元素插入；当ul中存在li时，插入ul中已有li的第一个前面。
+				if(Li.length==0){
+					Ul.appendChild(oNewLi);
+				}else{
+					Ul.insertBefore(oNewLi,Li[0]);
+				}
+			}
+			function rightIn(Ul){
+				var inPut=document.getElementsByTagName("input")[0].value;
+				var oNewLi=document.createElement("li");
+				oNewLi.innerHTML=inPut;
+				Ul.appendChild(oNewLi);
+			}
+			function leftOut(Ul,Li){
+				if(Li.length==0){
+					alert("没有可以移出的内容！")
+					return;
+				}
+				var aLi0=Li[0].innerHTML;
+				Ul.removeChild(Li[0]);
+				alert("已经删除数字块："+aLi0);
+			}
+			function rightOut(Ul,Li){
+				if(Li.length==0){
+					alert("没有可以移出的内容！")
+					return;
+				}else{
+				var aLiLast=Ul.lastElementChild.innerHTML;
+				Ul.lastElementChild.remove();
+				alert("已经删除数字块："+aLiLast);
+				}
+			}
+			function delSelf(This){
+				This.parentNode.removeChild(This);
+			}
+		</script>
+	</body>
+</html>
