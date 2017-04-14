@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			form .detail{
+				position: relative;
+			}
+			form .detail div{
+				position: absolute;
+			}
+			.inPut{
+				display: none;
+			}
+			.show{
+				display:block;
+			}
+			.hide{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<form>
+			<div class="radio">
+				<input type="radio" name="jobType" value="student" id="student" checked >在校生
+				<input type="radio" name="jobType" value="nostudent" id="nostudent">非在校生
+			</div>
+			<div class="detail">
+				<div class="inPut" style="display: block;">
+				城市
+				<select>
+					<option>北京</option>
+					<option>上海</option>
+					<option>广州</option>
+				</select>
+				学校
+				<select>
+					<option>北京大学</option>
+					<option>清华大学</option>
+					<option>北大青鸟</option>
+				</select>
+			</div>
+			<div class="inPut">
+				就业单位
+				<input type="text">
+			</div>
+			</div>
+		</form>
+		<script>
+			window.onload=function(){
+				var studentChoose=document.getElementById("student");
+				var noStudentChoose=document.getElementById("nostudent");
+				
+				var oRadio=document.getElementsByClassName("radio")[0];
+				var aRadio=oRadio.getElementsByTagName("input");
+				var oInput=document.getElementsByClassName("inPut");
+				
+               studentChoose.onclick=function(){
+               	oInput[0].style.display="block";
+               	oInput[1].style.display="none";
+               }
+               noStudentChoose.onclick=function(){
+               	oInput[1].style.display="block";
+               	oInput[0].style.display="none";
+               }
+			}
+			
+		</script>
+	</body>
+</html>
