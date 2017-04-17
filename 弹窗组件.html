@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,div,ul,li{margin:0;padding: 0;}
+			body{background: goldenrod;}
+			.boxs{position: relative;}
+			.clear:after{content: "";display: block;clear: both;height:0;width:0;}
+			.left_list{float:left;}
+			.right_list{float:right;}
+			li{width:200px;height:200px;background: gold;margin: 20px;list-style: none;}
+		
+			.modal{height:100%;width:100%;position: absolute;left:0;bottom:0;background:gainsboro;opacity: 0.4;display: none;}
+			.wrap{width:500px;position: fixed;left:50%;top:50%;transform: translate(-50%,-50%);display: none;}
+			
+			.alertBox .title{height:30px;background: gainsboro;text-align: center;line-height: 30px;font-family: "微软雅黑";color:goldenrod;border-radius: 6px 6px 0 0 ;}
+			.alertBox .con{height:250px;background: ghostwhite;padding-left: 5px;}
+			.alertBox .con_btn{height:30px;background: ghostwhite;border-radius:0 0 6px 6px;}
+			.alertBox .con_btn button{height:20px;width:50px;float:right;margin-right: 5px;background: goldenrod;border: none;border-radius: 6px;}
+			.alertBox .con_btn button a{text-decoration: none;color:gray;}
+			.alertBox .con_btn button a:hover{color:#fff;}
+		</style>
+	</head>
+	<body>
+		<div class="boxs clear">
+			<button id="showModal">弹个窗</button>
+			<ul class="left_list">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<ul class="right_list">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<div class="modal"></div>
+			<div class="alertBox">
+				
+			    <div class="wrap">
+			        <div class="title">
+				        <p>这是一个浮出层</p>
+			        </div>
+			        <div class="con">
+					        这是一个浮出层
+				    </div>
+				    <div class="con_btn">
+					    <button id="confirm"><a href="#">确定</a></button>
+					    <button id="cancel"><a href="#">取消</a></button>
+				    </div>
+			    </div>
+			</div>
+		</div>
+		<script>
+			window.onload=function(){
+				var oModal=document.getElementsByClassName("modal")[0];
+				var oModalWrap=document.getElementsByClassName("wrap")[0];
+				
+				
+				var oBtnShow=document.getElementById("showModal");
+				var oBtnConfirm=document.getElementById("confirm");
+				var oBtnCancel=document.getElementById("cancel");
+				
+				oBtnShow.onclick=function(){
+					showModal(oModal,oModalWrap);
+				}
+				oModal.onclick=oBtnCancel.onclick=oBtnConfirm.onclick=function(){
+					hideModal(oModal,oModalWrap);
+				}
+				
+			};
+			
+			function showModal(shade,modal){
+				shade.style.display="block";
+				modal.style.display="block";
+			}
+			function hideModal(shade,modal){
+				shade.style.display="none";
+				modal.style.display="none";
+			}
+		</script>
+	</body>
+</html>
