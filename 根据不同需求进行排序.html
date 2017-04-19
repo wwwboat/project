@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#tab{border-collapse: collapse;border:1px solid saddlebrown;margin:30px;}
+			#tab td{width:100px;height:40px;text-align: center;font-family: "微软雅黑";}
+			#tab thead{background: #ccc;color:saddlebrown;}
+			/*#tab thead th{height:50px;}*/
+			.btnUp{position: relative;left:10px;top:-7px;display: inline-block;width:0px;height:0px;border-bottom: 10px solid #fff;border-top:none;border-left:10px solid transparent;border-right: 10px solid transparent;}
+			.btnDown{position:relative;left:-9px;bottom:-7px;display: inline-block;width:0;height:0;border-top:10px solid #fff;border-bottom: none;border-left:10px solid transparent;border-right:10px solid transparent;}
+		</style>
+	</head>
+	<body>
+		<table id="tab" border="1">
+			<!--<thead>
+				<th>姓名</th>
+				<th>语文<span class="btnUp"></span><span class="btnDown"></span></th>
+				<th>数学<span class="btnUp"></span><span class="btnDown"></span></th>
+				<th>英语<span class="btnUp"></span><span class="btnDown"></span></th>
+				<th>总分<span class="btnUp"></span><span class="btnDown"></span></th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>小明</td>
+					<td>90</td>
+					<td>100</td>
+					<td>70</td>
+					<td>260</td>
+				</tr>
+				<tr>
+					<td>小陶</td>
+					<td>60</td>
+					<td>100</td>
+					<td>90</td>
+					<td>250</td>
+				</tr>
+				<tr>
+					<td>小华</td>
+					<td>90</td>
+					<td>70</td>
+					<td>80</td>
+					<td>240</td>
+				</tr>
+				<tr>
+					<td>小张</td>
+					<td>80</td>
+					<td>80</td>
+					<td>70</td>
+					<td>230</td>
+				</tr>
+				<tr>
+					<td>小红</td>
+					<td>70</td>
+					<td>90</td>
+					<td>70</td>
+					<td>230</td>
+				</tr>
+			</tbody>-->
+		</table>
+		<script>
+			/*
+			 * 表头数据
+			 */
+			var tabHeader={
+				heads:[{
+					name:"name",
+					label:"姓名",
+					sortable:false
+				},{
+					name:"chinese",
+					label:"语文",
+					sortable:true
+				},{
+					name:"math",
+					label:"数学",
+					sortable:true
+				},{
+					name:"english",
+					label:"英语",
+					sortable:true
+				},{
+					name:"total",
+					label:"总分",
+					sortable:true
+				}]
+			};
+			/*
+			 * 表格内容数据
+			 */
+			var tabData=[
+			    {
+			    	name:"小明",
+			    	chinese:90,
+			    	math:100,
+			    	english:70,
+			    	total:260
+			    },{
+			    	name:"小陶",
+			    	chinese:60,
+			    	math:100,
+			    	english:90,
+			    	total:250
+			    },{
+			    	name:"小华",
+			    	chinese:90,
+			    	math:70,
+			    	english:80,
+			    	total:240
+			    },{
+			    	name:"小张",
+			    	chinese:80,
+			    	math:80,
+			    	english:70,
+			    	total:230
+			    },{
+			    	name:"小红",
+			    	chinese:70,
+			    	math:90,
+			    	english:70,
+			    	total:230
+			    }
+			];
+			function init(){
+				addThead();
+				addTbody();
+			}
+			
+			var tabCon=document.getElementById("tab");
+			var tabHeadLength=tabHeader.heads.length;
+			var tabHead=tabHeader.heads;
+			var dataLength=tabData.length;
+			
+			/*
+			 * 插入表头数据
+			 */
+			function addThead(){
+				var tHead=document.createElement("thead");
+				var trNode=addTr();
+				
+				//生成表头单元格
+				tabHead.forEach(function(head){
+					var tds=addTd(head.label);
+					
+					if(head.sortable){
+						var val=head.name;
+						//添加升序按钮
+						var btnUp=document.createElement("span");
+						btnUp.className="btnUp";
+						tds.appendChild(btnUp);
+						//添加点击事件
+						btnUp.onclick=function(){
+							upSortBtn(val);
+						}
+						
+						//添加降序按钮
+						var btnDown=document.createElement("span");
+						btnDown.className="btnDown";
+						tds.appendChild(btnDown);
+						//添加点击事件
+						btnDown.onclick=function(){
+							downSortBtn(val);
+						};
+					}
+					trNode.appendChild(tds);
+				});
+				tHead.appendChild(trNode);
+				tabCon.appendChild(tHead);
+			}
+			
+			/*
+			 * 添加表格内容
+			 */
+			function addTbody(){
+				var tBody=document.createElement("tbody");
+				for(var i=0;i<dataLength;i++){
+					var trNode=addTr();
+					for(var key in tabData[i]){
+						var tds=addTd(tabData[i][key]);
+						trNode.appendChild(tds);
+					}
+					tBody.appendChild(trNode);
+				}
+				tabCon.appendChild(tBody);
+			}
+			
+			/*
+			 * 生成单元行
+			 */
+			function addTr(){
+				var trNode=document.createElement("tr");
+				return trNode;
+			}
+			/*
+			 * 生成单元格
+			 */
+			function addTd(value){
+				var tdNode=document.createElement("td");
+				tdNode.innerText=value;
+				return tdNode;
+			}
+			/*
+			 * 增加升序按钮
+			 */
+			function upSortBtn(val){
+				sortUp(val);
+				tabCon.innerHTML="";
+				init();
+			}
+			function sortUp(val){
+				var byScore=function(a,b){
+					return a[val]-b[val];
+				};
+				return tabData.sort(byScore);
+			}
+			/*
+			 * 增加降序按钮
+			 */
+			function downSortBtn(val){
+				sortDown(val);
+				tabCon.innerHTML="";
+				init();
+			}
+			function sortDown(val){
+				var byScore=function(a,b){
+					return b[val]-a[val];
+				};
+				return tabData.sort(byScore);
+			}
+			init();
+		</script>
+	</body>
+</html>
