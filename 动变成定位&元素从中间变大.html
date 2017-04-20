@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{
+				width: 366px;
+				margin:0 auto;
+				position:relative;
+			}
+			ul li{
+				list-style: none;
+				width:100px;
+				height:100px;
+				background-color:orange;
+				margin:10px;
+				float:left;
+				border:1px solid red;
+				opacity: 0.3;
+				font-family: arial;
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			
+		</ul>
+		<script>
+			window.onload=function(){
+				var aLi=document.getElementsByTagName("li");
+				var  i=0;
+				
+	            //布局转换：将float布局转换为绝对定位布局
+				for(i=0;i<aLi.length;i++){
+					aLi[i].innerHTML="left:"+aLi[i].offsetLeft+",top:"+aLi[i].offsetTop;
+					aLi[i].style.left=aLi[i].offsetLeft+"px";
+					aLi[i].style.top=aLi[i].offsetTop+"px";
+					
+				};
+				
+				for(i=0;i<aLi.length;i++){
+					aLi[i].style.float="none";
+					aLi[i].style.position="absolute";
+					aLi[i].style.margin="0px";
+				};
+				
+				//加事件
+				for(i=0;i<aLi.length;i++){
+					aLi[i].onmouseover=function(){
+						move(this,{width:200,height:200,marginLeft:-50,marginTop:-50,opacity:100});
+						var Width=this.offsetWidth;
+						this.style.zIndex=i++;
+						//this.style.top=(this.offsetWidth-Width)/2;
+						
+					}
+					aLi[i].onmouseout=function(){
+						move(this,{width:100,height:100,marginLeft:0,marginTop:0,opacity:100});
+					}
+				}
+				
+				
+				
+			};
+			function getStyle(obj,attr){
+				if(obj.currentStyle){
+					return obj.currentStyle[attr];
+				}else{
+					return getComputedStyle(obj,false)[attr];
+				}
+				
+			};
+			function move(obj,json,fn){
+				clearInterval(obj.timer);
+				obj.timer=setInterval(function(){
+				   var bStop=true;
+				   for(var attr in json){
+				   	var iCur=0;
+				   	if(attr=="opacity"){
+				   		iCur=parseInt(parseFloat(getStyle(obj,attr)*100));
+				   	}else{
+				   		iCur=parseInt(getStyle(obj,attr));
+				   	}
+				   	
+				   	var iSpeed=(json[attr]-iCur)/8;
+				   	iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+				   	
+				   	if(iCur != json[attr]){
+				   		bStop=false;
+				   	}
+				   	
+				   	if(attr=="opacity"){
+				   		obj.style[attr]=(iCur+iSpeed)/100;
+				   	}else{
+				   		obj.style[attr]=iCur+iSpeed+"px";
+				   	}
+				   	}
+				   if(bStop){
+				   		clearInterval(obj.timer);
+				   		if(fn){
+				   			fn();
+				   		}
+				   }
+				},30)
+				
+			};
+		</script>
+	</body>
+</html>

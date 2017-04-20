@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			div{
+				width:100px;
+				height:100px;
+				background-color:orange;
+				margin-top:5px;
+				opacity: 0.3;
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		
+		
+		<script>
+			window.onload=function(){
+				var oDiv=document.getElementsByTagName("div");
+				var i=0;
+				for( i=0;i<oDiv.length;i++){
+					//oDiv.timer=null;
+					oDiv[i].alpha=30;
+					oDiv[i].onmouseover=function(){
+						hoverOpa(this,100);
+					}
+					oDiv[i].onmouseout=function(){
+						hoverOpa(this,30);
+					}
+				}
+			}
+			
+			
+			function hoverOpa(obj,iTarget){
+				
+				clearInterval(obj.timer);
+				obj.timer=setInterval(function(){
+					// iSpeed=0;
+					var iSpeed=(iTarget-obj.alpha)/8;
+					iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+					
+					if(obj.alpha==iTarget){
+						clearInterval(obj.timer);
+					}else{
+						obj.alpha+=iSpeed;
+
+						obj.style.opacity=obj.alpha/100;
+					}
+				},30);
+			}
+		</script>
+	</body>
+</html>

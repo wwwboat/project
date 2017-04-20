@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			#div1{
+				width:100px;
+			    height:200px;
+			    background-color:red;
+			    position:absolute;
+			    right:0; 
+			    top:200px;
+			}
+		</style>
+	</head>
+	<body style="height:2000px;">
+		<div id="div1">
+			
+		</div>
+		<script>
+			
+				window.onscroll=function(){
+					var oDiv=document.getElementById("div1");
+					var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+					var t=scrollTop+(document.documentElement.clientHeight-oDiv.offsetHeight)/2;
+					scrollMove(parseInt(t));
+					
+				};
+			
+			
+//			function scrollMove(iTarget){
+//				var oDiv=document.getElementById("div1");
+//				var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+//				oDiv.style.top=scrollTop+(document.documentElement.clientHeight-oDiv.offsetHeight)/2+"px";
+//				
+//				
+//			}
+            var timer=null;
+            function scrollMove(iTarget){
+            	    var oDiv=document.getElementById("div1");
+            	    
+            	    clearInterval(timer);
+            	    timer=setInterval(function(){
+            	    	var iSpeed=(iTarget-oDiv.offsetTop)/5;
+            	    	iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+            	    	
+            	    	if(oDiv.offsetTop==iTarget){
+            	    		clearInterval(timer);
+            	    	}else{
+            	    		oDiv.style.top=oDiv.offsetTop+iSpeed+"px";
+            	    	}
+            	    	
+            	    	
+            	    },30)
+            };
+		</script>
+	</body>
+</html>

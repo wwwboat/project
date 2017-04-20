@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				padding:0;margin:0;
+			}
+			#div1{
+				border:1px solid red;
+				height:150px;
+				width:680px;
+				margin:10px auto;
+				overflow: hidden;
+				position:relative;
+			}
+			ul{
+				position:absolute;
+				left:0;
+			}
+			li{
+				list-style: none;
+				float:left;
+				padding:10px;
+				width:150px;
+				height:150px;
+				
+			}
+			img{
+				width:150px;
+					
+			}
+		</style>
+	</head>
+	<body>
+		<div id="div1">
+		<ul>
+			<li><img src="img/1.jpg" ></li>
+			<li><img src="img/2.jpg" ></li>
+			<li><img src="img/3.jpg" ></li>
+			<li><img src="img/4.jpg" ></li>
+		</ul>
+		</div>
+		
+		<script>
+			window.onload=function(){
+				var oDiv=document.getElementById("div1");
+				var oUl=document.getElementsByTagName("ul")[0];
+				var aLi=document.getElementsByTagName("li");
+				var iSpeed=10;
+				oUl.innerHTML+=oUl.innerHTML;
+				oUl.style.width=aLi.length*aLi[0].offsetWidth+"px";
+				
+				var timer=null;
+			      timer=setInterval(function(){
+			      	
+				    if(oUl.offsetLeft<-oUl.offsetWidth/2){
+				    	oUl.style.left=0;
+				    }else if(oUl.offsetLeft>0){
+				    	oUl.style.left=-oUl.offsetWidth/2+"px";
+				    }
+				    oUl.style.left=oUl.offsetLeft+iSpeed+"px";
+			      },30)
+				
+			}
+			
+			
+		</script>
+	</body>
+</html>

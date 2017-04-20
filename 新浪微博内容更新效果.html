@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				padding:0;margin:0;
+			}
+			textarea{
+				width:200px;
+				height:100px;
+			}
+			ul{
+				height:300px;
+				width:300px;
+				border:1px solid bisque;
+			}
+			ul li{
+				list-style: none;
+				padding:4px;
+				border-bottom:1px dashed darkgreen;
+				overflow: hidden;
+				opacity: 0;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<textarea id="txt1"></textarea><br />
+		<button id="btn1">提交</button>
+		<ul id="ul1">
+			
+		</ul>
+		<script type="text/javascript" src="js/move2.js" ></script>
+		<script>
+			window.onload=function(){
+				var oBtn=document.getElementById("btn1");
+				var oTxt=document.getElementById("txt1");
+				var oUl=document.getElementById("ul1");
+				
+				oBtn.onclick=function(){
+					var oLi=document.createElement("li");
+					var aLi=oUl.getElementsByTagName("li");
+					if(oTxt.value){
+						oLi.innerHTML=oTxt.value;
+					oTxt.value="";
+					
+					
+					if(aLi.length){
+						oUl.insertBefore(oLi,aLi[0]);
+					}else{
+						oUl.appendChild(oLi);
+					}
+					var iHeight=oLi.offsetHeight;
+					oLi.style.height=0;
+					startMove(oLi,{height:iHeight},function(){
+						startMove(oLi,{opacity:100})
+					});
+					}else{
+						alert("请输入内容！")
+					}
+					
+				}
+				
+			}
+		</script>
+	</body>
+</html>
