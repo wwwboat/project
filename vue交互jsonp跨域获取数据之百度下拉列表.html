@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{margin: 0;padding: 0;font-family: "微软雅黑";}
+			li{list-style: none;height: 22px;width:300px;line-height: 22px;}
+		    input{width: 300px;}
+		    li,input{padding: 0 10px;}
+		    .active{background: grey;}
+		</style>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<script type="text/javascript" src="js/vue-resource.js" ></script>
+		<script>
+			window.onload=function(){
+				new Vue({
+					el:"#box",
+					data:{
+						myDate:[
+						
+						],
+						t1:"",
+						now:-1
+						
+					},
+					methods:{
+						get:function(ev){
+							if(ev.keyCode==38 || ev.keyCode==40){return};
+							if(ev.keyCode==13){
+								window.open("https://www.baidu.com/s?wd="+this.t1);
+								this.t1='';
+							}
+							this.$http.jsonp("https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",{
+								wd:this.t1
+							},{
+								jsonp:"cb"
+							}).then(function(res){
+								this.myDate=res.data.s;
+							},function(res){
+								alert(res.data.status);
+							})
+						},
+						changeDown:function(){
+							if(this.now==this.myDate.length){
+								this.now=-1;
+							}else{
+								this.now++;
+							}				
+							this.t1=this.myDate[this.now];
+						},
+						changeUp:function(){
+							if(this.now==-2){
+								this.now==this.myDate.length-1;
+							}else{
+								this.now--;
+							}
+							this.t1=this.myDate[this.now];
+						}
+					}
+				})
+			}
+		</script>
+	</head>
+	<body>
+		<div id="box">
+				<input type="text" v-model="t1" @keyup="get($event)" @keydown.down="changeDown()" @keydown.up.prevent="changeUp()"/>
+				<ul>
+					<li v-for="value in myDate" :class="{active:$index==now}">{{value}}</li>
+				</ul>
+				<p v-show="myDate.length==0">暂无数据……</p>
+		</div>
+	</body>
+</html>
